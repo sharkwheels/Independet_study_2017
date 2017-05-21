@@ -9,8 +9,8 @@ TCPClient client;
 /* ======================= IO SETUP ================================= */
 #define AIO_SERVER      "io.adafruit.com"       // server
 #define AIO_SERVERPORT  8883                   // use 8883 for SSL / 1883 not
-#define AIO_USERNAME    "miss_n"              // username
-#define AIO_KEY         "6b4813d66eae4b1ab931ed5ce1f51eb8"    // adafruit key
+#define AIO_USERNAME    "XXX"              // username
+#define AIO_KEY         "XXXXXXXXXXX"    // adafruit key
 
 Adafruit_IO_Client aio = Adafruit_IO_Client(client, AIO_KEY);
 //current gas reading
@@ -323,7 +323,6 @@ int buttonPin = D6;          // button pin
 bool oldState = HIGH;        // button old state
 bool motorOn = false;        // is the motor on?
 int getRate = 6000;          // look for a new value every minute
-int pixelInterval;                // speed for the pixels
 int BASE_THRESHOLD = 50;     // the lowest heartrate
 int MAX_THRESHOLD = 300;     // the highest heartrate
 int currentReading;          // the current value from the feed
@@ -343,51 +342,44 @@ void setup()
   pinMode(buttonPin, INPUT_PULLUP);
   pinMode(motor, OUTPUT);         // set the motor pin to output
   digitalWrite(motor, HIGH);
-  pixelInterval = map(vibrateTime,100,1000, 0, 3.5);
+  int pixelSetup = map(vibrateTime,200,1000, 0, 3);
   Strip1.begin();
-  Strip1.Fade(Strip1.Color(0,0,0), Strip1.Color(0,0,0), 255,pixelInterval); // don't ask I'm just tired of dealing with it.
+  Strip1.Fade(Strip1.Color(0,0,0), Strip1.Color(0,0,0), 255,pixelSetup);
   motorTimer = 0;
-
 }
 
 void loop()
 {
-
   // always update the Strip
   Strip1.Update();
-
-
-  //Serial.print("vibrateTime: "); Serial.println(vibrateTime);
-  //Serial.print("pixelInterval: "); Serial.println(pixelInterval);
-
-
   if(isActive)
   {
-
     // get a new reading from feed
     int newReading;
     int newPixel;
-    if(millis()-lastGet>=getRate) {
+    if(millis()-lastGet>=getRate)
+    {
       // set the new reading
       FeedData latest = heartbeat.receive();
-      // reset timer
       lastGet = millis();
-      // convert to int
-      if (latest.isValid()){
-        if (latest.intValue(&newReading)){
-          // is it above the thresh?
-          if(newReading >= BASE_THRESHOLD){
-            // set the upper bound
+      if(latest.isValid())
+      {
+        if (latest.intValue(&newReading))
+        {
+          if(newReading >= BASE_THRESHOLD)
+          {
+            Serial.print(F("Value as an int: ")); Serial.println(newReading, DEC);
             if(newReading >= MAX_THRESHOLD){
               newReading = MAX_THRESHOLD;
             }
             vibrateTime = map(newReading, BASE_THRESHOLD, MAX_THRESHOLD, 1000, 200);
-            newPixel = map(vibrateTime,100,1000, 0, 3.5);
+            Serial.print("vibrateTime: "); Serial.println(vibrateTime,DEC);
+            newPixel = map(vibrateTime,200,1000, 0, 3);
             Strip1.Interval = newPixel;
             Serial.println("newPixel: "); Serial.println(newPixel);
-          }// base threshold
-        }// lastest&newReading
-      }//isvalid
+          }
+        }
+      }
     } // end of millis/lastGet
     if(motorOn && (motorTimer >= vibrateTime))
     {
@@ -396,6 +388,7 @@ void loop()
       digitalWrite(motor, !currentState);
     }
   }
+
   bool newState = digitalRead(buttonPin);
   if (newState == LOW && oldState == HIGH)
   {
@@ -411,10 +404,6 @@ void loop()
         Strip1.ActivePattern = FADE;
         Strip1.Color1 = Strip1.Color(255,0,0);
         Strip1.Color2 = Strip1.Color(0,0,0);
-
-
-
-
       } else if(isActive){
         isActive = false;
         Serial.println("not active!");
@@ -423,13 +412,7 @@ void loop()
         Strip1.ActivePattern = FADE;
         Strip1.Color1 = Strip1.Color(0,0,0);
         Strip1.Color2 = Strip1.Color(0,0,0);
-        Strip1.Interval = 10;          // Doesn't update for some reason?
-        //Strip1.ActivePattern = COLOR_WIPE;
-        //Strip1.Color1 = Strip1.Color(0,0,0);  //updates
-        //Strip1.TotalSteps = Strip1.numPixels();
-        //Strip1.Interval = 20;
-        //Strip1.Color2 = Strip1.Color(0,0,0);  //updates
-        //Strip1.Interval = 10;
+        Strip1.Interval = 10;
       }
     }
   }
@@ -437,16 +420,5 @@ void loop()
 } // end of void
 
 void Strip1Complete(){
-  // reverse the breathe
   Strip1.Reverse();
-
 }
-//Serial.print(F("newReading: ")); Serial.println(newReading, DEC);
-/*if(newReading != currentReading){
-    // map the heart rate to a pixel speed
-
-    //vibrateTime = mappedSpeed;
-    currentReading = newReading;
-}else{
-  Serial.println(F("nothing different keep values"));
-} // newReading vs currentReading*/
