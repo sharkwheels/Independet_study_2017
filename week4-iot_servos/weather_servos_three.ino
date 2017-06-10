@@ -8,6 +8,7 @@ Servos respond to wind speed. Like a weather vein.
 
 https://github.com/bblanchon/ArduinoJson
 https://gist.github.com/bbx10/149bba466b1e2cd887bf
+https://github.com/brendanmatkin/BlindSpot/tree/master/_96_servo_wave
 ******************/
 
 #include <ESP8266WiFi.h>
