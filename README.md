@@ -7,4 +7,6 @@ Week2: Wireshark. Looking at wireshark, pyshark, live capturing of packets, and 
 
 Week3: Playing with a Deauther (no repo)
 
-Week4: IoT Servos (playing with JSON, servos, and a feather)
+Week4: IoT Servos (playing with JSON, servos, and a feather huzzah)
+
+Week5: Tiny Oracle (neopixel featherwing, thermal printer, feather huzzah)
