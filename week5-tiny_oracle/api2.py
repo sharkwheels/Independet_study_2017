@@ -27,7 +27,7 @@ def about():
 
 class CityFeels(Resource):
 	def getFeels(self):
-		""" Construct how your city feels This is just a test for now to fuck w/ this protocol"""
+		""" Construct how your city feels This is just a test for now to mess w/ this protocol"""
 		randomFeels = [
 			{'feeling': "angry",'color':'red','message':'Today I am angry'},
 			{'feeling': "happy",'color':'green','message':'Today I am happy'},
