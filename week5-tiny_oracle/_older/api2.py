@@ -4,7 +4,7 @@
 # http://flask-restful.readthedocs.io/en/0.3.5/reqparse.html
 # https://blog.miguelgrinberg.com/post/designing-a-restful-api-using-flask-restful
 
-# do some error codes (might be built in)
+# do some error codes
 # do some basic auth
 ########################
 
@@ -27,33 +27,11 @@ def about():
 
 class CityFeels(Resource):
 	def getFeels(self):
-		""" Construct how your city feels This is just a test for now to fuck w/ this protocol"""
-		angryMsgs = [
-			"The sky is as red as the blood I will spill from you if you'd don't back off right now.",
-			"I could indeed, punch the sun in the face today.",
-			"No. Just no. lol.",
-			"FUUUUUUUUUUUUUUUUUUUUU....."
-		]
-
-		sadMsgs = [
-			"I'm just gonna lie here until I die. How about that?",
-			"Nope. Nope. Nope. Nope. :( ",
-			"All is lost."
-		]
-
-		happyMsgs = [
-			"WOOOOOO! TODAY IS THE BEST DAY.",
-			"TOTES A GOOD DAY Y'ALL!",
-			"**runs around in a circle and jumps**"
-		]
-		aMsg = random.choice(angryMsgs)
-		hMsg = random.choice(happyMsgs)
-		sMsg = random.choice(sadMsgs)
-
+		""" Construct how your city feels This is just a test for now to mess w/ this protocol"""
 		randomFeels = [
-			{'feeling': "angry",'message':aMsg},
-			{'feeling': "happy",'message':hMsg},
-			{'feeling': "sad",'message':sMsg},
+			{'feeling': "angry",'color':'red','message':'Today I am angry'},
+			{'feeling': "happy",'color':'green','message':'Today I am happy'},
+			{'feeling': "sad",'color':'blue','message':'Today I am sad'}
 		]
 		return random.choice(randomFeels)
 
@@ -65,5 +43,8 @@ class CityFeels(Resource):
 api.add_resource(CityFeels, '/cityfeels')
 
 if __name__ == '__main__':
-	app.run('0.0.0.0')
+	app.run(host='0.0.0.0')
+	#app.run(debug=True)
+
+
 

@@ -15,6 +15,7 @@ http://richardhayler.blogspot.ca/2016/04/getting-started-with-adafruit-feather.h
 #include <Wire.h>
 
 #include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 
@@ -319,34 +320,21 @@ class NeoPatterns : public Adafruit_NeoPixel
 #define TX_PIN 14   // printer rx = blue / yellow
 #define RX_PIN 12   // printer tx = green
 
+const char* ssid = "xxx";
+const char* password = "xxx";
 
-const char* ssid = "XXX";
-const char* password = "xXX";      
+bool isActive = false;
 
-const long oneSecond = 1000; // a second is a thousand milliseconds
-const long oneMinute = oneSecond * 60;
-const long oneHour   = oneMinute * 60;
+ESP8266WiFiMulti WiFiMulti;
 
-SoftwareSerial pSerial(RX_PIN, TX_PIN); 
+SoftwareSerial pSerial(RX_PIN, TX_PIN); // Declare SoftwareSerial obj first
 Adafruit_Thermal printer(&pSerial);
 
 void Strip1Complete();
 NeoPatterns Strip1(32, NEO_PIN, NEO_GRB + NEO_KHZ800, &Strip1Complete);
 
-elapsedMillis timerRest;      
-const long dataInterval = oneMinute * 30;    
-
-elapsedMillis pixelTimer;
-const long pixelRunTime = oneSecond * 20;  
-bool pixelTimerFired = false;
-
-String clr = "";
-String msg = "";
-String feels = "";
-
-bool isActive = false;
-bool printerRan = false;
-bool pixelsRan = false;
+elapsedMillis timerRest;      // rest for servo routine (X seconds on X seconds off)
+int dataInterval = 10000;    // 30 seconds on // 30 seconds off.  
 
 void setup() {
 	
@@ -357,28 +345,28 @@ void setup() {
     Serial.println();
     Serial.print("Connecting to wifi");
     Serial.println(ssid);
-    WiFi.begin(ssid,password);
-    while(WiFi.status() != WL_CONNECTED){
-        delay(500);
-        Serial.print(".");
+
+    for(uint8_t t = 4; t > 0; t--) {
+        Serial.printf("[SETUP] WAIT %d...\n", t);
+        Serial.flush();
+        delay(1000);
     }
-    Serial.println("Wifi connected");
-    Serial.println(F("IP address: "));
-    Serial.println(WiFi.localIP());
-    delay(100);
+    WiFiMulti.addAP("ssid", "password");
 
      // neopixel cick off
     Serial.println("starting pixels");
     Strip1.begin();
-    Strip1.Fade(Strip1.Color(50,0,50), Strip1.Color(0,0,0),200,20);
+    Strip1.Fade(Strip1.Color(100,100,0), Strip1.Color(0,0,50), 200,4);
     delay(100);
 
     // Printer runs on 9600 baud and uses software serial
     Serial.println("starting printer");
     pSerial.begin(9600); 
     printer.begin();  
+    printer.println(F("PRINTING A THING!"));
+    printer.feed(1);
 
-    // begin the repeating data timer on setup.
+    // begin the repeating data timer
     timerRest = 0;
 
     Serial.println("setup done");
@@ -386,61 +374,33 @@ void setup() {
 
 void loop() {
     Strip1.Update();
-    if(isActive){
-
-        if(!printerRan){
-            Serial.println(msg);
-            printer.println(msg);
-            printer.feed(3);
-            Serial.println("stopping printer");
-            printerRan = true;
-        }
-        if(!pixelsRan){
-            //Serial.println(clr); 
-            if(feels == "angry"){
-            Strip1.ActivePattern = SCANNER;
-            Strip1.Color1 = Strip1.Color(100,0,0); 
-            Strip1.Interval = 5;
-
-            }else if(feels == "sad"){
-                Strip1.ActivePattern = FADE;
-                Strip1.Color1 = Strip1.Color(0,0,100);
-                Strip1.Color2 = Strip1.Color(0,0,0); 
-                Strip1.Interval = 20;
-
-            }else if(feels == "happy"){
-                Strip1.ActivePattern = RAINBOW_CYCLE;
-                Strip1.TotalSteps = 255;
-                Strip1.Interval = 5;
-
-            }
-        }
-
-        if((!pixelTimerFired) && (pixelTimer > pixelRunTime)){
-            Serial.println("stopping pixels");
-            pixelTimerFired = true;
-            pixelsRan = true;
-            Serial.println("setting to inactive");
-            isActive = false; 
-        }
-          
-    }else{
-        Strip1.ActivePattern = FADE;
-        Strip1.Color1 = Strip1.Color(100,0,100); 
-        Strip1.Color2 = Strip1.Color(0,0,0);
-        Strip1.Interval = 50;
-        if (timerRest > dataInterval) {
-            timerRest -= dataInterval; 
-            getData();
-        } 
-    }    
+    if (timerRest > dataInterval) {
+        timerRest -= dataInterval; 
+        getData();
+    } 
 }
 
+void parsePayload(String payload){
+    Serial.println(payload);
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& root = jsonBuffer.parseObject(payload);
+    if (!root.success()) {
+        Serial.println("parseObject() failed");
+        return;
+    }
+    String thing = root["feeling"];
+    String thing2 = root["color"];
+    String thing3 = root["message"];
+    Serial.println(thing);
+    Serial.println(thing2);
+    Serial.println(thing3);
+}
+ 
 void getData(){
-    if((WiFi.status() == WL_CONNECTED)) {
+    if((WiFiMulti.run() == WL_CONNECTED)) {
         HTTPClient http;
         Serial.print("[HTTP] begin...\n");
-        http.begin("http://0.0.0.0:5000/cityfeels"); 
+        http.begin("http://10.0.1.5:5000/cityfeels"); 
         Serial.print("[HTTP] GET...\n");
         // start connection and send HTTP header
         int httpCode = http.GET();
@@ -459,34 +419,11 @@ void getData(){
 
         http.end();
     }
-}
-
-void parsePayload(String payload){
-    Serial.println(payload);
-    DynamicJsonBuffer jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(payload);
-    if (!root.success()) {
-        Serial.println("parseObject() failed");
-        return;
-    }
-    String feeling = root["feeling"];
-    String message = root["message"];
-    //String color = root["color"];
-    //clr = color;
-    msg = message;
-    feels = feeling;
-    setTheThings();
-}
-
-void setTheThings(){
-    pixelTimer = 0;
-    pixelTimerFired = false;
-    printerRan = false;
-    pixelsRan = false;
-    isActive = true; 
+    //delay(10000);
 }
 
 void Strip1Complete(){
   Strip1.Reverse();
+
 }
 
