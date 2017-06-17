@@ -2,12 +2,6 @@
 Tiny Oracles 1.0
 https://learn.adafruit.com/adafruit-neopixel-featherwing
 http://richardhayler.blogspot.ca/2016/04/getting-started-with-adafruit-feather.html
-
-// pixel resting state.
-// pixel active state.
-    // pixel feeling state
-// timer to go get the data (like once a day or something)
-    // command to print things (boolean)
 **************/
 
 #include <Arduino.h>
@@ -340,7 +334,6 @@ elapsedMillis pixelTimer;
 const long pixelRunTime = oneSecond * 20;  
 bool pixelTimerFired = false;
 
-String clr = "";
 String msg = "";
 String feels = "";
 
@@ -471,8 +464,6 @@ void parsePayload(String payload){
     }
     String feeling = root["feeling"];
     String message = root["message"];
-    //String color = root["color"];
-    //clr = color;
     msg = message;
     feels = feeling;
     setTheThings();

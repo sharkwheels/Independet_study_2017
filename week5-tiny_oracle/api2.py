@@ -4,8 +4,9 @@
 # http://flask-restful.readthedocs.io/en/0.3.5/reqparse.html
 # https://blog.miguelgrinberg.com/post/designing-a-restful-api-using-flask-restful
 
-# do some error codes (might be built in)
-# do some basic auth
+# note: this has no AUTH flow, it should be used on a local network that you trust.
+# it is only for testing this proof-of-tech
+# Eventully it will parse different external data to arrive at its feeling. 
 ########################
 
 from flask import Flask, request, Response
@@ -27,7 +28,7 @@ def about():
 
 class CityFeels(Resource):
 	def getFeels(self):
-		""" Construct how your city feels This is just a test for now to fuck w/ this protocol"""
+		""" Construct how your city feels This is just a test for now play w/ this protocol"""
 		angryMsgs = [
 			"The sky is as red as the blood I will spill from you if you'd don't back off right now.",
 			"I could indeed, punch the sun in the face today.",
