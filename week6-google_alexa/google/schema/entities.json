@@ -1,0 +1,59 @@
+[
+    {
+        "name": "binary",
+        "isEnum": null,
+        "entries": [
+            {
+                "synonyms": [
+                    "yes",
+                    "aye",
+                    "yup",
+                    "yeah",
+                    "yes please"
+                ],
+                "value": "yes"
+            },
+            {
+                "synonyms": [
+                    "no",
+                    "nope",
+                    "no thanks"
+                ],
+                "value": "no"
+            }
+        ],
+        "id": "def1fdc9-88c4-4df6-bcbd-a48d552d3001"
+    },
+    {
+        "name": "feeling",
+        "isEnum": null,
+        "entries": [
+            {
+                "synonyms": [
+                    "happy",
+                    "joyous",
+                    "great",
+                    "awesome"
+                ],
+                "value": "happy"
+            },
+            {
+                "synonyms": [
+                    "blue",
+                    "sad",
+                    "bad",
+                    "down"
+                ],
+                "value": "sad"
+            },
+            {
+                "synonyms": [
+                    "angry",
+                    "upset"
+                ],
+                "value": "angry"
+            }
+        ],
+        "id": "c519b8aa-677f-4f26-8e6b-0043f4711718"
+    }
+]

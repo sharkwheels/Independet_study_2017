@@ -1,0 +1,228 @@
+[
+    {
+        "priority": 500000,
+        "fallbackIntent": false,
+        "webhookForSlotFilling": true,
+        "webhookUsed": true,
+        "contexts": [],
+        "events": [],
+        "auto": true,
+        "name": "user-gives-feeling",
+        "userSays": [
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": ""
+                    },
+                    {
+                        "alias": "feeling",
+                        "text": "sad",
+                        "meta": "@feeling",
+                        "userDefined": true
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "I feel "
+                    },
+                    {
+                        "alias": "feeling",
+                        "text": "sad",
+                        "meta": "@feeling",
+                        "userDefined": true
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "I feel "
+                    },
+                    {
+                        "alias": "feeling",
+                        "text": "happy",
+                        "meta": "@feeling",
+                        "userDefined": true
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": ""
+                    },
+                    {
+                        "alias": "feeling",
+                        "text": "happy",
+                        "meta": "@feeling",
+                        "userDefined": true
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "I am "
+                    },
+                    {
+                        "alias": "feeling",
+                        "text": "sad",
+                        "meta": "@feeling",
+                        "userDefined": true
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "I am "
+                    },
+                    {
+                        "alias": "feeling",
+                        "text": "happy",
+                        "meta": "@feeling",
+                        "userDefined": true
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "I am "
+                    },
+                    {
+                        "alias": "feeling",
+                        "text": "angry",
+                        "meta": "@feeling",
+                        "userDefined": true
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": ""
+                    },
+                    {
+                        "alias": "feeling",
+                        "text": "angry",
+                        "meta": "@feeling",
+                        "userDefined": true
+                    }
+                ]
+            }
+        ],
+        "responses": [
+            {
+                "messages": [],
+                "parameters": [
+                    {
+                        "name": "feeling",
+                        "value": "$feeling",
+                        "defaultValue": "",
+                        "required": true,
+                        "prompts": [],
+                        "isList": false,
+                        "dataType": "@feeling"
+                    }
+                ],
+                "action": "ask_for_play",
+                "affectedContexts": [],
+                "resetContexts": false
+            }
+        ],
+        "templates": [],
+        "id": "8309d581-7d96-41a5-af8f-d02454797796"
+    },
+    {
+        "priority": 500000,
+        "fallbackIntent": false,
+        "webhookForSlotFilling": true,
+        "webhookUsed": true,
+        "contexts": [],
+        "events": [],
+        "auto": true,
+        "name": "greeting",
+        "userSays": [
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "hi",
+                        "userDefined": false
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "hello",
+                        "userDefined": false
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "start",
+                        "userDefined": false
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "begin",
+                        "userDefined": false
+                    }
+                ]
+            },
+            {
+                "isTemplate": false,
+                "count": 0,
+                "data": [
+                    {
+                        "text": "launch",
+                        "userDefined": false
+                    }
+                ]
+            }
+        ],
+        "responses": [
+            {
+                "messages": [],
+                "parameters": [],
+                "action": "greet_and_start",
+                "affectedContexts": [],
+                "resetContexts": false
+            }
+        ],
+        "templates": [],
+        "id": "1df0c7c0-de43-425e-9e99-866fc1203554"
+    }
+]

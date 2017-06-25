@@ -1,0 +1,49 @@
+# Template for defining UserSays examples
+
+# give-color-intent:
+
+#  UserSays:
+#    - My color is blue
+#    - red is my favorite color
+
+#  Annotations:
+#    - blue: sys.color     # maps param value -> entity
+#    - red: sys.color
+
+
+
+user-gives-feeling:
+  UserSays:
+  - sad
+  - I feel sad
+  - I feel happy
+  - happy
+  - I am sad
+  - I am happy
+  - I am angry
+  - angry
+  Annotations:
+  - sad: feeling
+  - happy: feeling 
+  - angry: feeling
+greeting:
+  UserSays:
+    - hi
+    - hello
+    - start
+    - begin
+    - launch
+  Annotations:
+  - 
+  - 
+user-gives-binary:
+  UserSays:
+  - yes
+  - no
+  - nope
+  - yeah
+  Annotations:
+  - yes: yes
+  - no: no
+  - nope: no
+  - yeah: yes
