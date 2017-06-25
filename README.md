@@ -10,3 +10,5 @@ Week3: Playing with a Deauther (no repo)
 Week4: IoT Servos (playing with JSON, servos, and a feather huzzah)
 
 Week5: Tiny Oracle (neopixel featherwing, thermal printer, feather huzzah, FLASK)
+
+Week6: Playing with Alexa and Google Home (Flask based tool chains)
