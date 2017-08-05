@@ -16,3 +16,7 @@ Week6: Playing with Alexa and Google Home (Flask based tool chains)
 Week7: Skipped
 
 Week8: Google Maps (Python, maps API)
+
+Week9: Unhelpful Google Assistant (google home)
+
+Week10: Muse TV (muse, python, old tv, relay)
