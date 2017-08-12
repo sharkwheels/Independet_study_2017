@@ -20,3 +20,5 @@ Week8: Google Maps (Python, maps API)
 Week9: Unhelpful Google Assistant (google home)
 
 Week10: Muse TV (muse, python, old tv, relay)
+
+Week11: Smoothies! Well sometimes smoothies. It depends on how Alexa is feeling. (Alexa, Relay, Feather, Python)
