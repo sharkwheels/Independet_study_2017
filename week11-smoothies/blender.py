@@ -44,7 +44,7 @@ def isItAfterNoon():
 		return False
 
 def getWeather():
-	f = urllib.request.urlopen('http://api.wunderground.com/api/054a6723c3f6af43/geolookup/conditions/q/[postalcode].json')
+	f = urllib.request.urlopen('http://api.wunderground.com/api/XXXXXXX/geolookup/conditions/q/[postalcode].json')
 	json_string = f.read().decode('utf-8')
 	parsed_json = json.loads(json_string)
 
@@ -182,7 +182,7 @@ def resetTimer(seconds):
 
 @ask.launch
 def launch():
-	return question("Do you feel like a smoothie?").reprompt("Sorry, I didn't get that. Do you want me to make smoothies?")
+	return question("<speak><break time='1s' />Say, do you feel like a smoothie?</speak>").reprompt("Sorry, I didn't get that. Do you want me to make smoothies?")
 
 @ask.intent("BlendIntent")
 def blend():
@@ -191,7 +191,7 @@ def blend():
 	global resource_var
 	global state
 
-	resetThread = Thread(target=resetTimer, args=(30,)) ## X seconds
+	resetThread = Thread(target=resetTimer, args=(20,)) ## X seconds
 	resetThread.start()
 
 	if(afternoon):
@@ -207,7 +207,7 @@ def blend():
 			## play a song
 			resource_var = "song"
 			state = "on"
-			return statement("Yeah I don't feel like a smoothie, let's listen to some music instead.")
+			return statement("<speak>I don't feel like a smoothie right now, I think I'd like to meditate for a bit first.<audio src='https://s3.amazonaws.com/soundfxforthings/birds.mp3'/></speak>")
 		elif mood == "good" or "great":
 			## turn on the blender and make a smothie
 			resource_var = "blender"
