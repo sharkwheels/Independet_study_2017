@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  <!-- Errors -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flashes">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <!-- entry form -->
+  <a name="top"></a>
+  <article>
+    <div id="form">
+     
+      <p>I'm listening to a playlist right now, but if you hit this button, it will stop my music and make me listen to All-Star by Smashmouth.</p>
+       <form method="post" action="/submit-form"> 
+       <div class="hp">
+        If you see this, leave this form field blank and invest in CSS support.
+        <input type="text" name="pot" value="" />
+      </div>
+      <div class="innerF">
+      <p><input type="submit" class="btn" value="Play All Star" /></p>
+      </form>
+      </div>
+    </div>
+  </article>
+
+
+  <article>
+    <a name="about"></a>
+    <h2>About</h2>
+    <p>This wee app was made by <a href="http://nadinelessio.com">NL</a>.</p>
+  </article>
+
+{% endblock %}
